@@ -1,0 +1,2611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVAMeet — Home</title>
+
+<style>
+:root{
+    --bg:#08090d;
+    --bg2:#0d0f15;
+    --panel:rgba(18,20,29,.78);
+    --panel-solid:#12141d;
+    --panel2:#171a25;
+    --border:rgba(255,255,255,.08);
+    --border2:rgba(255,255,255,.14);
+    --text:#f7f8fb;
+    --muted:#9ca3b3;
+    --muted2:#697183;
+
+    --purple:#8b5cf6;
+    --purple2:#a78bfa;
+    --cyan:#22d3ee;
+    --green:#34d399;
+    --red:#fb7185;
+
+    --accent:var(--purple);
+    --accent2:var(--purple2);
+    --glow:rgba(139,92,246,.28);
+
+    --radius:22px;
+    --radius2:16px;
+
+    --shadow:0 25px 70px rgba(0,0,0,.35);
+}
+
+body.light{
+    --bg:#f5f7fb;
+    --bg2:#eef1f7;
+    --panel:rgba(255,255,255,.8);
+    --panel-solid:#ffffff;
+    --panel2:#f1f3f8;
+    --border:rgba(20,25,40,.08);
+    --border2:rgba(20,25,40,.15);
+    --text:#10131b;
+    --muted:#687083;
+    --muted2:#9299a8;
+    --shadow:0 25px 60px rgba(31,41,55,.12);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 10% 10%,var(--glow),transparent 25%),
+        radial-gradient(circle at 90% 30%,rgba(34,211,238,.07),transparent 22%),
+        var(--bg);
+    overflow-x:hidden;
+    transition:.3s ease;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+svg{
+    width:20px;
+    height:20px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    overflow:hidden;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.22;
+    background-image:
+        linear-gradient(var(--border) 1px,transparent 1px),
+        linear-gradient(90deg,var(--border) 1px,transparent 1px);
+    background-size:70px 70px;
+    mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+
+.blob{
+    position:absolute;
+    width:450px;
+    height:450px;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.12;
+}
+
+.blob.one{
+    background:var(--accent);
+    top:-220px;
+    left:-150px;
+}
+
+.blob.two{
+    background:var(--cyan);
+    right:-220px;
+    top:260px;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    height:76px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+    background:rgba(8,9,13,.62);
+    backdrop-filter:blur(24px);
+}
+
+body.light .navbar{
+    background:rgba(245,247,251,.7);
+}
+
+.nav-inner{
+    width:min(1180px,calc(100% - 36px));
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:25px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    font-weight:800;
+    font-size:20px;
+    letter-spacing:-.5px;
+}
+
+.logo-mark{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    color:white;
+    background:linear-gradient(135deg,var(--accent),var(--cyan));
+    box-shadow:0 8px 30px var(--glow);
+}
+
+.logo-mark svg{
+    width:21px;
+}
+
+.nav-links{
+    display:flex;
+    gap:28px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.nav-links a{
+    transition:.2s;
+}
+
+.nav-links a:hover{
+    color:var(--text);
+}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--border);
+    display:grid;
+    place-items:center;
+    transition:.2s;
+}
+
+.icon-btn:hover{
+    color:var(--text);
+    border-color:var(--border2);
+    transform:translateY(-1px);
+}
+
+.profile-btn{
+    height:42px;
+    padding:0 10px 0 5px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:var(--text);
+    background:var(--panel);
+    border:1px solid var(--border);
+}
+
+.avatar{
+    width:32px;
+    height:32px;
+    border-radius:10px;
+    display:grid;
+    place-items:center;
+    font-size:13px;
+    font-weight:800;
+    color:white;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+}
+
+.mobile-menu{
+    display:none;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    width:min(1180px,calc(100% - 36px));
+    margin:auto;
+    padding:52px 0 80px;
+}
+
+/* =========================
+   WELCOME
+========================= */
+
+.welcome{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:30px;
+    margin-bottom:30px;
+}
+
+.eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 11px;
+    border-radius:999px;
+    color:var(--accent2);
+    background:color-mix(in srgb,var(--accent) 10%,transparent);
+    border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 12px var(--green);
+}
+
+.welcome h1{
+    font-size:clamp(32px,5vw,52px);
+    line-height:1;
+    letter-spacing:-2.5px;
+    margin-bottom:12px;
+}
+
+.welcome p{
+    color:var(--muted);
+    font-size:15px;
+}
+
+.welcome-profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 15px;
+    border:1px solid var(--border);
+    border-radius:17px;
+    background:var(--panel);
+}
+
+.welcome-profile small{
+    display:block;
+    color:var(--muted2);
+    font-size:11px;
+    margin-bottom:2px;
+}
+
+.welcome-profile strong{
+    font-size:14px;
+}
+
+/* =========================
+   QUICK GRID
+========================= */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.65fr 1fr;
+    gap:20px;
+}
+
+/* QUICK START */
+
+.quick-card{
+    position:relative;
+    min-height:330px;
+    padding:30px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:
+        radial-gradient(circle at 90% 0%,color-mix(in srgb,var(--accent) 17%,transparent),transparent 34%),
+        var(--panel);
+    box-shadow:var(--shadow);
+    backdrop-filter:blur(25px);
+}
+
+.quick-card::after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    right:-130px;
+    bottom:-180px;
+    border-radius:50%;
+    background:var(--cyan);
+    filter:blur(100px);
+    opacity:.08;
+}
+
+.quick-top{
+    position:relative;
+    z-index:1;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.quick-top h2{
+    font-size:25px;
+    letter-spacing:-1px;
+    margin-bottom:7px;
+}
+
+.quick-top p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.secure-pill{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 11px;
+    border-radius:999px;
+    font-size:11px;
+    color:var(--green);
+    border:1px solid rgba(52,211,153,.2);
+    background:rgba(52,211,153,.07);
+}
+
+.quick-actions{
+    position:relative;
+    z-index:1;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+    margin-top:38px;
+}
+
+.primary-btn,
+.secondary-btn{
+    min-height:58px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-weight:700;
+    transition:.22s;
+}
+
+.primary-btn{
+    color:white;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 12px 30px var(--glow);
+}
+
+.primary-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 17px 38px var(--glow);
+}
+
+.secondary-btn{
+    color:var(--text);
+    border:1px solid var(--border2);
+    background:rgba(255,255,255,.035);
+}
+
+.secondary-btn:hover{
+    transform:translateY(-2px);
+    background:var(--panel2);
+}
+
+.join-box{
+    position:relative;
+    z-index:1;
+    display:flex;
+    gap:9px;
+    margin-top:14px;
+}
+
+.join-input{
+    flex:1;
+    height:54px;
+    min-width:0;
+    padding:0 16px;
+    color:var(--text);
+    outline:none;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:rgba(0,0,0,.16);
+    transition:.2s;
+}
+
+body.light .join-input{
+    background:rgba(0,0,0,.035);
+}
+
+.join-input:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 12%,transparent);
+}
+
+.join-button{
+    width:110px;
+    border-radius:14px;
+    color:var(--text);
+    background:var(--panel2);
+    border:1px solid var(--border2);
+    font-weight:700;
+}
+
+.join-button:hover{
+    border-color:var(--accent);
+    color:var(--accent2);
+}
+
+/* RIGHT COLUMN */
+
+.side-stack{
+    display:grid;
+    grid-template-rows:1fr 1fr;
+    gap:20px;
+}
+
+/* RECENT */
+
+.card{
+    padding:23px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--panel);
+    backdrop-filter:blur(22px);
+}
+
+.card-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.card-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:15px;
+    font-weight:750;
+}
+
+.card-title-icon{
+    width:34px;
+    height:34px;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    color:var(--accent2);
+    background:color-mix(in srgb,var(--accent) 10%,transparent);
+}
+
+.clear-btn{
+    color:var(--muted2);
+    background:none;
+    font-size:11px;
+}
+
+.clear-btn:hover{
+    color:var(--red);
+}
+
+.recent-empty{
+    color:var(--muted2);
+    font-size:13px;
+    line-height:1.6;
+    padding:8px 0;
+}
+
+.recent-list{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.recent-item{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:11px;
+    border-radius:13px;
+    border:1px solid transparent;
+    transition:.2s;
+}
+
+.recent-item:hover{
+    background:var(--panel2);
+    border-color:var(--border);
+}
+
+.room-icon{
+    width:36px;
+    height:36px;
+    flex-shrink:0;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    color:var(--accent2);
+    background:color-mix(in srgb,var(--accent) 10%,transparent);
+}
+
+.room-info{
+    flex:1;
+    min-width:0;
+}
+
+.room-code{
+    font-size:13px;
+    font-weight:750;
+}
+
+.room-time{
+    color:var(--muted2);
+    font-size:10px;
+    margin-top:2px;
+}
+
+.rejoin{
+    width:31px;
+    height:31px;
+    border-radius:9px;
+    color:var(--muted);
+    background:var(--panel2);
+    display:grid;
+    place-items:center;
+}
+
+.rejoin:hover{
+    color:var(--accent2);
+}
+
+/* WORKSPACE */
+
+.workspace{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.workspace-content p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+    margin-top:8px;
+}
+
+.workspace-status{
+    margin-top:20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:15px;
+    border-top:1px solid var(--border);
+}
+
+.connection{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+}
+
+.connection span{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+}
+
+.customize-mini{
+    color:var(--accent2);
+    background:none;
+    font-size:12px;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.section{
+    margin-top:75px;
+}
+
+.section-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    margin-bottom:22px;
+}
+
+.section-heading h2{
+    font-size:28px;
+    letter-spacing:-1.3px;
+}
+
+.section-heading p{
+    color:var(--muted);
+    font-size:13px;
+    max-width:450px;
+    line-height:1.6;
+}
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.feature{
+    padding:24px;
+    min-height:170px;
+    border:1px solid var(--border);
+    border-radius:19px;
+    background:var(--panel);
+    transition:.25s;
+}
+
+.feature:hover{
+    transform:translateY(-4px);
+    border-color:var(--border2);
+    box-shadow:var(--shadow);
+}
+
+.feature-icon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    color:var(--accent2);
+    background:color-mix(in srgb,var(--accent) 10%,transparent);
+    margin-bottom:18px;
+}
+
+.feature h3{
+    font-size:15px;
+    margin-bottom:7px;
+}
+
+.feature p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.65;
+}
+
+/* =========================
+   SHOWCASE
+========================= */
+
+.showcase{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:20px;
+    align-items:stretch;
+}
+
+.showcase-info{
+    padding:30px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:var(--panel);
+}
+
+.showcase-info h2{
+    font-size:29px;
+    line-height:1.1;
+    letter-spacing:-1.4px;
+}
+
+.showcase-info>p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+    margin:13px 0 24px;
+}
+
+.checks{
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+}
+
+.check{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    font-size:13px;
+}
+
+.check-mark{
+    width:24px;
+    height:24px;
+    display:grid;
+    place-items:center;
+    border-radius:8px;
+    color:var(--green);
+    background:rgba(52,211,153,.08);
+}
+
+.preview{
+    min-height:310px;
+    padding:18px;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.035),transparent),
+        var(--panel);
+}
+
+.preview-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+}
+
+.preview-title{
+    font-size:11px;
+    color:var(--muted);
+}
+
+.preview-dots{
+    display:flex;
+    gap:5px;
+}
+
+.preview-dots i{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--border2);
+}
+
+.video-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.video{
+    height:125px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:
+        radial-gradient(circle at 50% 30%,rgba(255,255,255,.07),transparent 20%),
+        linear-gradient(145deg,#1b1e28,#0e1016);
+    position:relative;
+    overflow:hidden;
+}
+
+body.light .video{
+    background:linear-gradient(145deg,#e8ebf2,#dce1eb);
+}
+
+.video-person{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    color:white;
+    font-weight:800;
+    background:linear-gradient(135deg,var(--accent),var(--cyan));
+}
+
+.video-label{
+    position:absolute;
+    bottom:8px;
+    left:8px;
+    padding:5px 8px;
+    border-radius:7px;
+    font-size:9px;
+    background:rgba(0,0,0,.55);
+    color:white;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.stat{
+    padding:22px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    background:var(--panel);
+}
+
+.stat strong{
+    display:block;
+    font-size:25px;
+    letter-spacing:-1px;
+}
+
+.stat span{
+    display:block;
+    margin-top:5px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    margin-top:80px;
+    padding-top:25px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted2);
+    font-size:11px;
+}
+
+.footer-brand{
+    color:var(--text);
+    font-weight:700;
+}
+
+/* =========================
+   MODALS
+========================= */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    place-items:center;
+    padding:20px;
+    background:rgba(0,0,0,.62);
+    backdrop-filter:blur(10px);
+}
+
+.overlay.show{
+    display:grid;
+}
+
+.modal{
+    width:min(450px,100%);
+    border-radius:24px;
+    padding:25px;
+    background:var(--panel-solid);
+    border:1px solid var(--border2);
+    box-shadow:0 35px 100px rgba(0,0,0,.45);
+    animation:modalIn .22s ease;
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(10px) scale(.98);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.modal-head h2{
+    font-size:20px;
+}
+
+.close{
+    width:35px;
+    height:35px;
+    border-radius:10px;
+    color:var(--muted);
+    background:var(--panel2);
+    display:grid;
+    place-items:center;
+}
+
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
+    display:block;
+    font-size:11px;
+    color:var(--muted);
+    margin-bottom:7px;
+}
+
+.field input{
+    width:100%;
+    height:48px;
+    padding:0 13px;
+    color:var(--text);
+    outline:none;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:var(--panel2);
+}
+
+.field input:focus{
+    border-color:var(--accent);
+}
+
+.modal-button{
+    width:100%;
+    height:49px;
+    margin-top:5px;
+    border-radius:12px;
+    color:white;
+    font-weight:700;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-big{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:15px;
+    margin-bottom:20px;
+    border-radius:15px;
+    background:var(--panel2);
+}
+
+.profile-big .avatar{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    font-size:17px;
+}
+
+.profile-big small{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.profile-big strong{
+    display:block;
+    margin-top:2px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    z-index:200;
+    left:50%;
+    bottom:25px;
+    transform:translate(-50%,20px);
+    opacity:0;
+    pointer-events:none;
+    padding:12px 16px;
+    border-radius:12px;
+    color:var(--text);
+    border:1px solid var(--border2);
+    background:var(--panel-solid);
+    box-shadow:var(--shadow);
+    font-size:12px;
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* =========================
+   CUSTOMIZE
+========================= */
+
+.customize{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:80;
+}
+
+.customize-button{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    display:grid;
+    place-items:center;
+    color:white;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 12px 30px var(--glow);
+}
+
+.customize-panel{
+    position:absolute;
+    right:0;
+    bottom:60px;
+    width:280px;
+    padding:18px;
+    border:1px solid var(--border2);
+    border-radius:20px;
+    background:var(--panel-solid);
+    box-shadow:var(--shadow);
+    display:none;
+}
+
+.customize-panel.show{
+    display:block;
+}
+
+.customize-panel h3{
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.preset-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:15px;
+}
+
+.preset{
+    width:28px;
+    height:28px;
+    border-radius:9px;
+    border:2px solid transparent;
+    cursor:pointer;
+}
+
+.preset.active{
+    border-color:var(--text);
+}
+
+.custom-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:13px;
+    font-size:12px;
+}
+
+.custom-row input[type="text"]{
+    width:110px;
+    height:34px;
+    padding:0 8px;
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel2);
+    outline:none;
+}
+
+.custom-row input[type="color"]{
+    width:40px;
+    height:32px;
+    border:0;
+    padding:0;
+    background:none;
+}
+
+.range{
+    width:120px;
+}
+
+.toggle{
+    width:38px;
+    height:22px;
+    border-radius:20px;
+    background:var(--muted2);
+    position:relative;
+    cursor:pointer;
+}
+
+.toggle::after{
+    content:"";
+    position:absolute;
+    width:16px;
+    height:16px;
+    top:3px;
+    left:3px;
+    border-radius:50%;
+    background:white;
+    transition:.2s;
+}
+
+.toggle.on{
+    background:var(--accent);
+}
+
+.toggle.on::after{
+    transform:translateX(16px);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .side-stack{
+        grid-template-columns:1fr 1fr;
+        grid-template-rows:none;
+    }
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .showcase{
+        grid-template-columns:1fr;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .mobile-menu{
+        display:grid;
+    }
+}
+
+@media(max-width:650px){
+    .main{
+        padding-top:35px;
+    }
+
+    .welcome{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .welcome-profile{
+        width:100%;
+    }
+
+    .quick-card{
+        padding:22px;
+    }
+
+    .quick-actions{
+        grid-template-columns:1fr;
+        margin-top:28px;
+    }
+
+    .join-box{
+        flex-direction:column;
+    }
+
+    .join-button{
+        width:100%;
+        height:50px;
+    }
+
+    .side-stack{
+        grid-template-columns:1fr;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .section-heading{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .footer{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .navbar{
+        height:68px;
+    }
+
+    .nav-inner{
+        width:min(100% - 24px,1180px);
+    }
+
+    .profile-btn{
+        padding-right:5px;
+    }
+
+    .profile-btn span{
+        display:none;
+    }
+
+    .customize{
+        right:14px;
+        bottom:14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background">
+    <div class="grid"></div>
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+</div>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+    <div class="nav-inner">
+
+        <a class="logo" href="index.html">
+            <span class="logo-mark">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7 7h10v10H7z"/>
+                    <path d="M4 10v4M20 10v4"/>
+                </svg>
+            </span>
+            NOVAMeet
+        </a>
+
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#experience">Experience</a>
+            <a href="#stats">Overview</a>
+        </div>
+
+        <div class="nav-actions">
+
+            <button class="icon-btn" id="themeBtn" title="Toggle theme">
+                <svg id="themeIcon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                </svg>
+            </button>
+
+            <button class="profile-btn" id="profileBtn">
+                <span class="avatar" id="navAvatar">N</span>
+                <span id="navName">Guest</span>
+            </button>
+
+            <button class="icon-btn mobile-menu" id="mobileMenuBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+
+        </div>
+    </div>
+</nav>
+
+<main class="main">
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <div>
+            <div class="eyebrow">
+                <span class="status-dot"></span>
+                Your meeting workspace is ready
+            </div>
+
+            <h1 id="welcomeTitle">Good to see you.</h1>
+
+            <p>
+                Start a meeting, join a room, or jump back into a recent conversation.
+            </p>
+        </div>
+
+        <button class="welcome-profile" id="welcomeProfile">
+            <span class="avatar" id="welcomeAvatar">N</span>
+
+            <span>
+                <small>Signed in as</small>
+                <strong id="welcomeName">Guest</strong>
+            </span>
+        </button>
+
+    </section>
+
+
+    <!-- DASHBOARD -->
+
+    <section class="dashboard-grid">
+
+        <!-- QUICK START -->
+
+        <div class="quick-card">
+
+            <div class="quick-top">
+
+                <div>
+                    <h2>Start a meeting</h2>
+                    <p>Everything you need, right from your browser.</p>
+                </div>
+
+                <div class="secure-pill">
+                    <span class="status-dot"></span>
+                    Ready
+                </div>
+
+            </div>
+
+            <div class="quick-actions">
+
+                <button class="primary-btn" id="newMeetingBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    New meeting
+                </button>
+
+                <button class="secondary-btn" id="copyLastBtn">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="9" y="9" width="10" height="10" rx="2"/>
+                        <path d="M5 15V5a2 2 0 0 1 2-2h10"/>
+                    </svg>
+                    Copy last link
+                </button>
+
+            </div>
+
+            <div class="join-box">
+
+                <input
+                    class="join-input"
+                    id="roomInput"
+                    autocomplete="off"
+                    placeholder="Enter a meeting code"
+                >
+
+                <button class="join-button" id="joinBtn">
+                    Join
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SIDE -->
+
+        <div class="side-stack">
+
+            <!-- RECENT -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="card-title">
+                        <span class="card-title-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M12 7v5l3 2"/>
+                            </svg>
+                        </span>
+                        Recent meetings
+                    </div>
+
+                    <button class="clear-btn" id="clearRecent">
+                        Clear
+                    </button>
+
+                </div>
+
+                <div class="recent-list" id="recentList"></div>
+
+            </div>
+
+
+            <!-- WORKSPACE -->
+
+            <div class="card workspace">
+
+                <div class="workspace-content">
+
+                    <div class="card-title">
+                        <span class="card-title-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/>
+                                <path d="m9 12 2 2 4-4"/>
+                            </svg>
+                        </span>
+                        Your workspace
+                    </div>
+
+                    <p>
+                        No downloads. No complicated setup.
+                        Just open a room and start talking.
+                    </p>
+
+                </div>
+
+                <div class="workspace-status">
+
+                    <div class="connection">
+                        <span></span>
+                        Connection ready
+                    </div>
+
+                    <button class="customize-mini" id="customizeMini">
+                        Customize
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="section" id="features">
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Everything feels effortless.</h2>
+            </div>
+
+            <p>
+                NOVAMeet keeps the important meeting controls simple,
+                fast and accessible.
+            </p>
+
+        </div>
+
+        <div class="features">
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 10l4.5-2.5v9L15 14"/>
+                        <rect x="3" y="6" width="12" height="12" rx="2"/>
+                    </svg>
+                </div>
+                <h3>HD video</h3>
+                <p>Meet face-to-face directly in your browser.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/>
+                    </svg>
+                </div>
+                <h3>Crystal audio</h3>
+                <p>Clear microphone communication with device controls.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14 4l6 6-10 10H4v-6L14 4z"/>
+                        <path d="M12 6l6 6"/>
+                    </svg>
+                </div>
+                <h3>Screen sharing</h3>
+                <p>Share your screen when explaining, presenting or collaborating.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 11a8 8 0 1 1-2.34-5.66"/>
+                        <path d="M20 4v7h-7"/>
+                    </svg>
+                </div>
+                <h3>Instant rooms</h3>
+                <p>Create a fresh room in one click with no unnecessary steps.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5h16v14H4z"/>
+                        <path d="M8 9h8M8 13h5"/>
+                    </svg>
+                </div>
+                <h3>Meeting chat</h3>
+                <p>Keep text communication available while the meeting is running.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3v18M3 12h18"/>
+                        <circle cx="12" cy="12" r="8"/>
+                    </svg>
+                </div>
+                <h3>Personal themes</h3>
+                <p>Change accent colors, appearance and visual effects your way.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- EXPERIENCE -->
+
+    <section class="section" id="experience">
+
+        <div class="showcase">
+
+            <div class="showcase-info">
+
+                <h2>A meeting home that feels like an app.</h2>
+
+                <p>
+                    Your rooms, profile and preferences stay close at hand,
+                    so getting into your next meeting takes seconds.
+                </p>
+
+                <div class="checks">
+
+                    <div class="check">
+                        <span class="check-mark">
+                            <svg viewBox="0 0 24 24">
+                                <path d="m6 12 4 4 8-8"/>
+                            </svg>
+                        </span>
+                        Browser-based meetings
+                    </div>
+
+                    <div class="check">
+                        <span class="check-mark">
+                            <svg viewBox="0 0 24 24">
+                                <path d="m6 12 4 4 8-8"/>
+                            </svg>
+                        </span>
+                        Saved recent rooms
+                    </div>
+
+                    <div class="check">
+                        <span class="check-mark">
+                            <svg viewBox="0 0 24 24">
+                                <path d="m6 12 4 4 8-8"/>
+                            </svg>
+                        </span>
+                        Custom appearance
+                    </div>
+
+                    <div class="check">
+                        <span class="check-mark">
+                            <svg viewBox="0 0 24 24">
+                                <path d="m6 12 4 4 8-8"/>
+                            </svg>
+                        </span>
+                        Responsive on desktop and mobile
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="preview">
+
+                <div class="preview-top">
+
+                    <span class="preview-title">
+                        NOVAMeet room preview
+                    </span>
+
+                    <div class="preview-dots">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                </div>
+
+                <div class="video-grid">
+
+                    <div class="video">
+                        <div class="video-person">N</div>
+                        <div class="video-label">You</div>
+                    </div>
+
+                    <div class="video">
+                        <div class="video-person">A</div>
+                        <div class="video-label">Alex</div>
+                    </div>
+
+                    <div class="video">
+                        <div class="video-person">S</div>
+                        <div class="video-label">Sam</div>
+                    </div>
+
+                    <div class="video">
+                        <div class="video-person">+</div>
+                        <div class="video-label">Waiting</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="section" id="stats">
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong>4K</strong>
+                <span>Video-ready experience</span>
+            </div>
+
+            <div class="stat">
+                <strong>1-click</strong>
+                <span>Meeting creation</span>
+            </div>
+
+            <div class="stat">
+                <strong>24/7</strong>
+                <span>Ready when you are</span>
+            </div>
+
+            <div class="stat">
+                <strong>0</strong>
+                <span>Downloads required</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+
+        <span>
+            <span class="footer-brand">NOVAMeet</span>
+            — your browser meeting space.
+        </span>
+
+        <span>
+            Built for simple conversations.
+        </span>
+
+    </footer>
+
+</main>
+
+
+<!-- PROFILE MODAL -->
+
+<div class="overlay" id="profileModal">
+
+    <div class="modal">
+
+        <div class="modal-head">
+            <h2>Your profile</h2>
+
+            <button class="close" data-close="profileModal">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 6l12 12M18 6L6 18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="profile-big">
+
+            <span class="avatar" id="modalAvatar">N</span>
+
+            <span>
+                <small>Meeting name</small>
+                <strong id="modalCurrentName">Guest</strong>
+            </span>
+
+        </div>
+
+        <div class="field">
+            <label>DISPLAY NAME</label>
+            <input id="profileInput" maxlength="30" placeholder="Your name">
+        </div>
+
+        <button class="modal-button" id="saveProfile">
+            Save profile
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- JOIN MODAL -->
+
+<div class="overlay" id="joinModal">
+
+    <div class="modal">
+
+        <div class="modal-head">
+            <h2>Join a meeting</h2>
+
+            <button class="close" data-close="joinModal">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 6l12 12M18 6L6 18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="field">
+            <label>MEETING CODE</label>
+            <input id="modalRoomInput" placeholder="NOVA-XXXX-XXXX">
+        </div>
+
+        <button class="modal-button" id="modalJoinBtn">
+            Join meeting
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CUSTOMIZE -->
+
+<div class="customize">
+
+    <div class="customize-panel" id="customizePanel">
+
+        <h3>Customize NOVAMeet</h3>
+
+        <div class="preset-row">
+
+            <button class="preset" data-color="#8b5cf6"
+                style="background:#8b5cf6"></button>
+
+            <button class="preset" data-color="#06b6d4"
+                style="background:#06b6d4"></button>
+
+            <button class="preset" data-color="#10b981"
+                style="background:#10b981"></button>
+
+            <button class="preset" data-color="#f59e0b"
+                style="background:#f59e0b"></button>
+
+            <button class="preset" data-color="#ef4444"
+                style="background:#ef4444"></button>
+
+            <button class="preset" data-color="#ec4899"
+                style="background:#ec4899"></button>
+
+        </div>
+
+        <div class="custom-row">
+            <span>Accent</span>
+
+            <input type="color" id="colorPicker">
+        </div>
+
+        <div class="custom-row">
+            <span>Hex</span>
+
+            <input type="text" id="hexInput" placeholder="#8b5cf6">
+        </div>
+
+        <div class="custom-row">
+            <span>Glow</span>
+
+            <input class="range" id="glowRange"
+                   type="range" min="0" max="100" value="28">
+        </div>
+
+        <div class="custom-row">
+            <span>Glass</span>
+            <button class="toggle on" id="glassToggle"></button>
+        </div>
+
+        <div class="custom-row">
+            <span>Motion</span>
+            <button class="toggle on" id="motionToggle"></button>
+        </div>
+
+        <div class="custom-row">
+            <span>Theme</span>
+
+            <button class="toggle" id="customThemeToggle"></button>
+        </div>
+
+    </div>
+
+    <button class="customize-button" id="customizeBtn" title="Customize">
+
+        <svg viewBox="0 0 24 24">
+            <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 1.7-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V20h-2.4v-.2a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.7-1.7.06-.06A1.7 1.7 0 0 0 8.46 15a1.7 1.7 0 0 0-1.56-1.03H6v-2.4h.9A1.7 1.7 0 0 0 8.46 10a1.7 1.7 0 0 0-.34-1.88l-.06-.06 1.7-1.7.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1.03-1.56V5h2.4v.2a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.7 1.7-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.56 1.03h.04v2.4h-.04A1.7 1.7 0 0 0 19.4 15z"/>
+        </svg>
+
+    </button>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+/* =========================================
+   NOVAMEET HOME
+========================================= */
+
+const $ = selector => document.querySelector(selector);
+
+const toast = $("#toast");
+
+function showToast(message){
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2300);
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+let profileName =
+    localStorage.getItem("nova_profile_name") || "Guest";
+
+function getInitial(name){
+    return (name || "G").trim().charAt(0).toUpperCase();
+}
+
+function updateProfileUI(){
+
+    const initial = getInitial(profileName);
+
+    $("#navAvatar").textContent = initial;
+    $("#welcomeAvatar").textContent = initial;
+    $("#modalAvatar").textContent = initial;
+
+    $("#navName").textContent = profileName;
+    $("#welcomeName").textContent = profileName;
+    $("#modalCurrentName").textContent = profileName;
+
+    $("#welcomeTitle").textContent =
+        profileName === "Guest"
+            ? "Welcome to NOVAMeet."
+            : `Good to see you, ${profileName}.`;
+}
+
+updateProfileUI();
+
+
+$("#profileBtn").onclick = () => {
+
+    $("#profileInput").value =
+        profileName === "Guest" ? "" : profileName;
+
+    $("#profileModal").classList.add("show");
+
+    setTimeout(() => {
+        $("#profileInput").focus();
+    }, 50);
+};
+
+$("#welcomeProfile").onclick = () => {
+    $("#profileBtn").click();
+};
+
+$("#saveProfile").onclick = () => {
+
+    const value = $("#profileInput").value.trim();
+
+    profileName = value || "Guest";
+
+    localStorage.setItem(
+        "nova_profile_name",
+        profileName
+    );
+
+    updateProfileUI();
+
+    $("#profileModal").classList.remove("show");
+
+    showToast("Profile saved");
+};
+
+
+/* =========================================
+   ROOMS
+========================================= */
+
+function normalizeRoom(value){
+
+    return value
+        .trim()
+        .replace(/\s+/g,"")
+        .toUpperCase();
+}
+
+function generateRoom(){
+
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let a = "";
+    let b = "";
+
+    for(let i=0;i<4;i++){
+        a += chars[Math.floor(Math.random()*chars.length)];
+        b += chars[Math.floor(Math.random()*chars.length)];
+    }
+
+    return `NOVA-${a}-${b}`;
+}
+
+function saveRecentRoom(code){
+
+    let rooms =
+        JSON.parse(localStorage.getItem("nova_recent_rooms") || "[]");
+
+    rooms = rooms.filter(room => room.code !== code);
+
+    rooms.unshift({
+        code,
+        time: Date.now()
+    });
+
+    rooms = rooms.slice(0,6);
+
+    localStorage.setItem(
+        "nova_recent_rooms",
+        JSON.stringify(rooms)
+    );
+
+    localStorage.setItem(
+        "nova_last_room",
+        code
+    );
+
+    renderRecentRooms();
+}
+
+function getRecentRooms(){
+
+    try{
+        return JSON.parse(
+            localStorage.getItem("nova_recent_rooms") || "[]"
+        );
+    }catch{
+        return [];
+    }
+}
+
+function formatTime(timestamp){
+
+    const diff = Date.now() - timestamp;
+
+    const minute = 60 * 1000;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+
+    if(diff < minute)
+        return "Just now";
+
+    if(diff < hour)
+        return `${Math.floor(diff/minute)}m ago`;
+
+    if(diff < day)
+        return `${Math.floor(diff/hour)}h ago`;
+
+    return `${Math.floor(diff/day)}d ago`;
+}
+
+function renderRecentRooms(){
+
+    const list = $("#recentList");
+    const rooms = getRecentRooms();
+
+    list.innerHTML = "";
+
+    if(!rooms.length){
+
+        list.innerHTML = `
+            <div class="recent-empty">
+                Your recent meeting rooms will appear here.
+                Create or join a room to get started.
+            </div>
+        `;
+
+        return;
+    }
+
+    rooms.forEach(room => {
+
+        const item = document.createElement("div");
+
+        item.className = "recent-item";
+
+        item.innerHTML = `
+            <span class="room-icon">
+                <svg viewBox="0 0 24 24">
+                    <rect x="4" y="5" width="16" height="14" rx="3"/>
+                    <path d="M8 9h8M8 13h5"/>
+                </svg>
+            </span>
+
+            <span class="room-info">
+                <span class="room-code">${room.code}</span>
+                <span class="room-time">${formatTime(room.time)}</span>
+            </span>
+
+            <button class="rejoin" title="Join room">
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h13"/>
+                    <path d="m13 6 6 6-6 6"/>
+                </svg>
+            </button>
+        `;
+
+        item.querySelector(".rejoin").onclick = () => {
+            goToMeeting(room.code);
+        };
+
+        list.appendChild(item);
+    });
+}
+
+renderRecentRooms();
+
+
+function goToMeeting(code){
+
+    code = normalizeRoom(code);
+
+    if(!code){
+        showToast("Enter a meeting code");
+        return;
+    }
+
+    saveRecentRoom(code);
+
+    window.location.href =
+        `meeting.html?room=${encodeURIComponent(code)}`;
+}
+
+
+/* =========================================
+   NEW MEETING
+========================================= */
+
+$("#newMeetingBtn").onclick = () => {
+
+    const code = generateRoom();
+
+    saveRecentRoom(code);
+
+    goToMeeting(code);
+};
+
+
+/* =========================================
+   JOIN
+========================================= */
+
+$("#joinBtn").onclick = () => {
+
+    goToMeeting($("#roomInput").value);
+};
+
+$("#roomInput").addEventListener("keydown", event => {
+
+    if(event.key === "Enter"){
+        goToMeeting(event.target.value);
+    }
+
+});
+
+
+/* =========================================
+   JOIN MODAL
+========================================= */
+
+$("#modalJoinBtn").onclick = () => {
+
+    goToMeeting($("#modalRoomInput").value);
+};
+
+
+/* =========================================
+   COPY LAST LINK
+========================================= */
+
+$("#copyLastBtn").onclick = async () => {
+
+    const room =
+        localStorage.getItem("nova_last_room");
+
+    if(!room){
+        showToast("No recent meeting yet");
+        return;
+    }
+
+    const link =
+        `${location.origin}/meeting.html?room=${encodeURIComponent(room)}`;
+
+    try{
+
+        await navigator.clipboard.writeText(link);
+
+        showToast("Meeting link copied");
+
+    }catch{
+
+        showToast(link);
+    }
+};
+
+
+/* =========================================
+   CLEAR RECENT
+========================================= */
+
+$("#clearRecent").onclick = () => {
+
+    localStorage.removeItem("nova_recent_rooms");
+
+    renderRecentRooms();
+
+    showToast("Recent meetings cleared");
+};
+
+
+/* =========================================
+   MODALS
+========================================= */
+
+document.querySelectorAll("[data-close]").forEach(button => {
+
+    button.onclick = () => {
+
+        const id = button.dataset.close;
+
+        $("#" + id).classList.remove("show");
+    };
+
+});
+
+document.querySelectorAll(".overlay").forEach(overlay => {
+
+    overlay.addEventListener("click", event => {
+
+        if(event.target === overlay){
+            overlay.classList.remove("show");
+        }
+
+    });
+
+});
+
+document.addEventListener("keydown", event => {
+
+    if(event.key === "Escape"){
+
+        document
+            .querySelectorAll(".overlay.show")
+            .forEach(x => x.classList.remove("show"));
+
+        $("#customizePanel").classList.remove("show");
+    }
+
+});
+
+
+/* =========================================
+   THEME
+========================================= */
+
+function applyTheme(theme){
+
+    document.body.classList.toggle(
+        "light",
+        theme === "light"
+    );
+
+    localStorage.setItem(
+        "nova_theme",
+        theme
+    );
+
+    $("#customThemeToggle")
+        .classList.toggle("on",theme === "light");
+}
+
+let savedTheme =
+    localStorage.getItem("nova_theme") || "dark";
+
+applyTheme(savedTheme);
+
+$("#themeBtn").onclick = () => {
+
+    const next =
+        document.body.classList.contains("light")
+            ? "dark"
+            : "light";
+
+    applyTheme(next);
+};
+
+$("#customThemeToggle").onclick = () => {
+
+    const next =
+        document.body.classList.contains("light")
+            ? "dark"
+            : "light";
+
+    applyTheme(next);
+};
+
+
+/* =========================================
+   CUSTOM APPEARANCE
+========================================= */
+
+const appearance =
+    JSON.parse(
+        localStorage.getItem("nova_appearance") || "{}"
+    );
+
+let accent =
+    appearance.color || "#8b5cf6";
+
+let glow =
+    appearance.glow ?? 28;
+
+let glass =
+    appearance.glass !== false;
+
+let motion =
+    appearance.motion !== false;
+
+
+function hexToRgb(hex){
+
+    hex = hex.replace("#","");
+
+    if(hex.length === 3){
+        hex =
+            hex[0]+hex[0]+
+            hex[1]+hex[1]+
+            hex[2]+hex[2];
+    }
+
+    const num = parseInt(hex,16);
+
+    return {
+        r:(num >> 16) & 255,
+        g:(num >> 8) & 255,
+        b:num & 255
+    };
+}
+
+function applyAccent(){
+
+    const rgb = hexToRgb(accent);
+
+    document.documentElement.style.setProperty(
+        "--accent",
+        accent
+    );
+
+    document.documentElement.style.setProperty(
+        "--accent2",
+        accent
+    );
+
+    document.documentElement.style.setProperty(
+        "--glow",
+        `rgba(${rgb.r},${rgb.g},${rgb.b},${glow/100})`
+    );
+
+    $("#colorPicker").value = accent;
+    $("#hexInput").value = accent;
+
+    $("#glowRange").value = glow;
+}
+
+function saveAppearance(){
+
+    localStorage.setItem(
+        "nova_appearance",
+        JSON.stringify({
+            color:accent,
+            glow,
+            glass,
+            motion
+        })
+    );
+}
+
+function applyGlass(){
+
+    document.documentElement.style.setProperty(
+        "--panel",
+        glass
+            ? "rgba(18,20,29,.78)"
+            : "var(--panel-solid)"
+    );
+
+    $("#glassToggle").classList.toggle("on",glass);
+}
+
+function applyMotion(){
+
+    document.body.style.setProperty(
+        "--transition-speed",
+        motion ? ".22s" : "0s"
+    );
+
+    $("#motionToggle").classList.toggle("on",motion);
+}
+
+applyAccent();
+applyGlass();
+applyMotion();
+
+
+document.querySelectorAll(".preset").forEach(button => {
+
+    button.onclick = () => {
+
+        accent = button.dataset.color;
+
+        applyAccent();
+        saveAppearance();
+
+        showToast("Accent updated");
+    };
+
+});
+
+
+$("#colorPicker").oninput = event => {
+
+    accent = event.target.value;
+
+    applyAccent();
+    saveAppearance();
+};
+
+
+$("#hexInput").onchange = event => {
+
+    let value = event.target.value.trim();
+
+    if(!/^#[0-9A-Fa-f]{6}$/.test(value)){
+        showToast("Use a valid HEX color");
+        return;
+    }
+
+    accent = value;
+
+    applyAccent();
+    saveAppearance();
+};
+
+
+$("#glowRange").oninput = event => {
+
+    glow = Number(event.target.value);
+
+    applyAccent();
+    saveAppearance();
+};
+
+
+$("#glassToggle").onclick = () => {
+
+    glass = !glass;
+
+    applyGlass();
+    saveAppearance();
+};
+
+
+$("#motionToggle").onclick = () => {
+
+    motion = !motion;
+
+    applyMotion();
+    saveAppearance();
+};
+
+
+/* =========================================
+   CUSTOMIZE PANEL
+========================================= */
+
+function toggleCustomize(){
+
+    $("#customizePanel")
+        .classList.toggle("show");
+}
+
+$("#customizeBtn").onclick = toggleCustomize;
+
+$("#customizeMini").onclick = toggleCustomize;
+
+document.addEventListener("click", event => {
+
+    const panel = $("#customizePanel");
+    const button = $("#customizeBtn");
+
+    if(
+        panel.classList.contains("show") &&
+        !panel.contains(event.target) &&
+        !button.contains(event.target) &&
+        event.target.id !== "customizeMini"
+    ){
+        panel.classList.remove("show");
+    }
+
+});
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+$("#mobileMenuBtn").onclick = () => {
+
+    const links = document.querySelector(".nav-links");
+
+    if(getComputedStyle(links).display === "none"){
+
+        links.style.position = "absolute";
+        links.style.top = "68px";
+        links.style.left = "12px";
+        links.style.right = "12px";
+        links.style.display = "flex";
+        links.style.flexDirection = "column";
+        links.style.padding = "18px";
+        links.style.border = "1px solid var(--border)";
+        links.style.borderRadius = "16px";
+        links.style.background = "var(--panel-solid)";
+        links.style.backdropFilter = "blur(20px)";
+
+    }else{
+
+        links.style.display = "none";
+    }
+
+};
+
+
+/* =========================================
+   KEYBOARD SHORTCUTS
+========================================= */
+
+document.addEventListener("keydown", event => {
+
+    if(
+        event.target.tagName === "INPUT" ||
+        event.target.tagName === "TEXTAREA"
+    ){
+        return;
+    }
+
+    const key = event.key.toLowerCase();
+
+    if(key === "n"){
+        $("#newMeetingBtn").click();
+    }
+
+    if(key === "j"){
+        $("#roomInput").focus();
+    }
+
+    if(key === "t"){
+        $("#themeBtn").click();
+    }
+
+});
+
+
+/* =========================================
+   UPDATE RECENT TIMES
+========================================= */
+
+setInterval(() => {
+    renderRecentRooms();
+},60000);
+
+</script>
+
+</body>
+</html>
